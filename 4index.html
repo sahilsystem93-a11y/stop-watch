@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Stylish Stopwatch/Timer</title>
+<style>
+body {
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  background: linear-gradient(135deg,#f43f5e,#f97316);
+  color:#fff;
+}
+.timer-card {
+  background: rgba(0,0,0,0.6);
+  padding:30px 40px;
+  border-radius:25px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,0.5);
+}
+h2 { margin-bottom:20px; }
+.time-display { font-size:48px; margin-bottom:20px; text-shadow:0 0 15px rgba(255,255,255,0.7); }
+button {
+  padding:12px 18px;
+  border:none;
+  border-radius:12px;
+  margin:5px;
+  cursor:pointer;
+  font-weight:bold;
+  transition:0.3s;
+}
+#start { background:#10b981; color:white; }
+#stop { background:#ef4444; color:white; }
+#reset { background:#3b82f6; color:white; }
+button:hover { opacity:0.8; }
+</style>
+</head>
+<body>
+
+<div class="timer-card">
+  <h2>⏱ Stopwatch</h2>
+  <div id="display" class="time-display">00:00:00</div>
+  <button id="start">Start</button>
+  <button id="stop">Stop</button>
+  <button id="reset">Reset</button>
+</div>
+
+<script>
+let h=0,m=0,s=0,interval=null;
+const display = document.getElementById('display');
+function update(){ display.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`; }
+document.getElementById('start').addEventListener('click', ()=>{
+  if(interval) return;
+  interval = setInterval(()=>{
+    s++;
+    if(s==60){s=0;m++;}
+    if(m==60){m=0;h++;}
+    update();
+  },1000);
+});
+document.getElementById('stop').addEventListener('click', ()=>{ clearInterval(interval); interval=null; });
+document.getElementById('reset').addEventListener('click', ()=>{
+  clearInterval(interval); interval=null;
+  h=0;m=0;s=0;update();
+});
+</script>
+
+</body>
+</html>
